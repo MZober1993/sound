@@ -2,10 +2,10 @@ module Helper where
 
 import Haskore.Music.GeneralMIDI as MidiMusic
 import Haskore.Melody
+import Prelude
 import Haskore.Basic.Pitch as Pit
 import Haskore.Basic.Duration
 import Haskore.Interface.MIDI.Render as Render
-import GHC.List as Ls
 
 -- midi generation
 renderTo f m = Render.fileFromGeneralMIDIMusic f song where
@@ -27,4 +27,10 @@ toAtomNotes = map (Just . Note ())
 
 toNote::Haskore.Basic.Duration.T -> [Pit.T] -> [Haskore.Melody.T ()]
 toNote d =  map (\p -> note p d ())
+
+nTimes:: Int -> [Pit.T]->[Pit.T]
+nTimes n l = applyNTimes n (++ l) []
+
+applyNTimes :: Int -> (a -> a) -> a -> a
+applyNTimes n f val = foldl (\s e -> e s) val [f | x <- [1..n]]
 
