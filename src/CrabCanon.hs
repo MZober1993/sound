@@ -2,10 +2,11 @@ module CrabCanon where
 
 import Haskore.Melody
 import Haskore.Music as M
+import Haskore.Basic.Duration
 import Haskore.Music.GeneralMIDI
 import Helper
 import Haskore.Basic.Pitch as Pit
-import Prelude
+import Prelude as P
 import Data.Maybe
 
 pitches::[Pit.T]
@@ -32,31 +33,15 @@ thirdLine =
   [(1, G)] ++
   toP 2 [D, C, D, Ef, F, Ef, D, C] ++ [(1, B)] ++ [(2, C)] ++ toP 1 [G, Ef, C]
 
-pitchTuple :: [(Pit.T, Atom (Haskore.Melody.Note ()))] -- necessary for retro,invert,retroInvert and invertRetro
-pitchTuple = toTuple pitches
-
 convert::[Pit.T] -> [Haskore.Melody.T ()]
-convert l = toNote qn (Prelude.take 5 l) ++ [rest en] ++ toNote qn (takeAfter 5 5 l) ++ toNote en (takeAfter 10 7 l) ++ toNote qn (takeAfter 17 4 l)
-    ++ toNote sn (takeAfter 21 64 l) ++ toNote en (takeAfter 85 4 l)
---TODO: clean up: work on 1 list only with take and drop
+convert pits = insert 5 (rest en) $ makeMelody pits durations
+
+durations::[Haskore.Basic.Duration.T]
+durations = P.replicate 10 qn ++ P.replicate 7 en ++ P.replicate 4 qn ++ P.replicate 64 sn ++ P.replicate 4 en
 
 takeAfter::Int -> Int -> [a] -> [a]
-takeAfter after n l = Prelude.take n $ snd $ splitAt after l
+takeAfter after n l = P.take n $ snd $ splitAt after l
 
 original =  line $ convert pitches
-together1 = original =:= M.reverse original -- super-retrograde (
-together2 = original =:= M.reverse (convertWithF invert) --invertRetro
-together3 = original =:= M.reverse (line $ convert $ Prelude.reverse retrInvPs) --retroInvert
-together2' = original =:= convertWithF invertRetro -- retro from invertRetro doesn't work
-together3' = original =:= convertWithF retroInvert -- retro from retroInvert doesn't work
 
-retrInvPs = changePsWithL invert $ Prelude.reverse pitchTuple
-
-convertWithF f= line $ convert $ changePs f
-changePs::([(Pit.T, Atom (Haskore.Melody.Note ()))] -> [(Pit.T, Atom (Haskore.Melody.Note ()))]) -> [Pit.T]
-changePs f = map (notePitch_ . fromMaybe undefined) $ snd $ unzip $ f pitchTuple
-
-changePsWithL::([(Pit.T, Atom (Haskore.Melody.Note ()))] -> [(Pit.T, Atom (Haskore.Melody.Note ()))]) -> [(Pit.T, Atom (Haskore.Melody.Note ()))] -> [Pit.T]
-changePsWithL f l = map (notePitch_ . fromMaybe undefined) $ snd $ unzip $ f l
-
-invertExample = invert $ toTuple $ toP 1 [C,Cs,D,Ds,E,Es,F,Fs,G,Gs,A,As,B,Bs]
+together = original =:= M.reverse original
