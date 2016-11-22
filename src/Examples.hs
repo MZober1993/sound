@@ -16,7 +16,7 @@ p piece =
 
 simple1 = c 1 qn () +:+ e 1 qn () +:+ g 1 qn ()
 simple2 = c 1 qn () =:= e 1 qn () =:= g 1 qn ()
-simple3 = c 1 qn () +:+ rest qn +:+ g 1 qn ()
+simple3 = c 1 qn () +:+ qnr +:+ g 1 qn ()
 simple4 = [(1,C),(1,E),(1,G)]
 simple5 = note (1,C) qn ()
 simple6 = note' C 1 qn ()

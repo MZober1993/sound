@@ -9,6 +9,8 @@ import Haskore.Basic.Pitch as Pit
 import Prelude as P
 import Data.Maybe
 
+-- Canon a 2 "Crab Canon", from Musical Offering (1747), by J. S. Bach
+
 pitches::[Pit.T]
 pitches = firstLine ++ secondLine ++ thirdLine
 
@@ -45,3 +47,5 @@ takeAfter after n l = P.take n $ snd $ splitAt after l
 original =  line $ convert pitches
 retrograde = M.reverse original
 together = original =:= retrograde
+
+main = p together

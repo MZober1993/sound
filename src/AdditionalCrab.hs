@@ -19,11 +19,12 @@ retrInvPs = changePsWithL invert $ P.reverse pitchTuple
 
 convertWithF f= line $ convert $ changePs f
 changePs::([(Pit.T, Atom (Haskore.Melody.Note ()))] -> [(Pit.T, Atom (Haskore.Melody.Note ()))]) -> [Pit.T]
-changePs f = map (notePitch_ . fromMaybe undefined) $ snd $ unzip $ f pitchTuple
+changePs f = changePsWithL f pitchTuple
 
 changePsWithL::([(Pit.T, Atom (Haskore.Melody.Note ()))] -> [(Pit.T, Atom (Haskore.Melody.Note ()))]) -> [(Pit.T, Atom (Haskore.Melody.Note ()))] -> [Pit.T]
 changePsWithL f l = map (notePitch_ . fromMaybe undefined) $ snd $ unzip $ f l
 
+test f = f . toTuple
 invertExample = invert $ toTuple $ toP 1 [C,Cs,D,Ds,E,Es,F,Fs,G,Gs,A,As,B,Bs]
 
 pitchTuple :: [(Pit.T, Atom (Haskore.Melody.Note ()))] -- necessary for retro,invert,retroInvert and invertRetro
