@@ -34,7 +34,7 @@ thirdLine =
   toP 2 [D, C, D, Ef, F, Ef, D, C] ++ [(1, B)] ++ [(2, C)] ++ toP 1 [G, Ef, C]
 
 convert::[Pit.T] -> [Haskore.Melody.T ()]
-convert pits = insert 5 (rest en) $ makeMelody pits durations
+convert pits = insert 5 enr $ makeMelody pits durations
 
 durations::[Haskore.Basic.Duration.T]
 durations = P.replicate 10 qn ++ P.replicate 7 en ++ P.replicate 4 qn ++ P.replicate 64 sn ++ P.replicate 4 en
@@ -43,5 +43,5 @@ takeAfter::Int -> Int -> [a] -> [a]
 takeAfter after n l = P.take n $ snd $ splitAt after l
 
 original =  line $ convert pitches
-
-together = original =:= M.reverse original
+retrograde = M.reverse original
+together = original =:= retrograde

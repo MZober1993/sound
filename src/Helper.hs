@@ -36,11 +36,9 @@ insert::Int -> a -> [a] -> [a]
 insert n new_element xs = let (ys,zs) = splitAt n xs in ys ++ [new_element] ++ zs
 
 insertMore:: [(Int,a)]->[a]->[a]
-insertMore ls xs = case ls of
-    y:ys -> uncurry insert y (insertMore ys xs)
-    _ -> xs
+insertMore ls xs = foldl (flip $ uncurry insert) xs ls
 
-nTimes:: Int -> [Pit.T]->[Pit.T]
+nTimes::Int->[a]->[a]
 nTimes n l = applyNTimes n (++ l) []
 
 applyNTimes :: Int -> (a -> a) -> a -> a
