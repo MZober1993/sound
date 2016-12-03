@@ -1,18 +1,14 @@
-module Examples where
+module HaskoreSamples.Examples where
 
+import HaskoreSamples.Helper
 import Haskore.Interface.MIDI.Render as Render
-import Haskore.Music.GeneralMIDI as MidiMusic
+import Haskore.Music.GeneralMIDI
 import Haskore.Music
 import Haskore.Melody
-import Helper
 import qualified Medium
 import Haskore.Basic.Pitch as Pi hiding (transpose)
 import Prelude as P hiding (replicate,reverse)
 import Medium.Controlled.List
-
-p piece =
-  Render.playTimidity $
-  MidiMusic.fromMelodyNullAttr MidiMusic.AcousticGrandPiano piece
 
 simple1 = c 1 qn () +:+ e 1 qn () +:+ g 1 qn ()
 simple2 = c 1 qn () =:= e 1 qn () =:= g 1 qn ()
@@ -39,4 +35,5 @@ replicate2 = replicate 1 simple1
 invert1 = invert $ toTuple $ toP 1 [C,Cs,D,Ds,E,Es,F,Fs,G,Gs,A,As,B,Bs]
 reverse1 = reverse simple1
 reverse2 = reverse changeTempo2
--- example for invert,reverse,retroInvert,invertRetro given in CrabCanon.hs
+-- example for reverse given in CrabCanon.hs
+--         for invert  given in QuaerendoInventietis.hs

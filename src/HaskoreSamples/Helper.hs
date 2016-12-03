@@ -1,6 +1,7 @@
-module Helper where
+module HaskoreSamples.Helper where
 
-import Haskore.Music.GeneralMIDI as MidiMusic
+import BasicHelper
+import Haskore.Music.GeneralMIDI
 import Haskore.Melody
 import Haskore.Music as M
 import Prelude
@@ -12,11 +13,15 @@ import Data.Maybe
 
 -- midi generation
 renderTo f m = Render.fileFromGeneralMIDIMusic f song where
-  song = MidiMusic.fromMelodyNullAttr MidiMusic.AcousticGrandPiano m
+  song = fromMelodyNullAttr AcousticGrandPiano m
 -- play music
 p piece =
   Render.playTimidity $
-  MidiMusic.fromMelodyNullAttr MidiMusic.AcousticGrandPiano piece
+  fromMelodyNullAttr AcousticGrandPiano piece
+
+pI i piece =
+  Render.playTimidity $
+  fromMelodyNullAttr i piece
 
 -- pitches and tuple
 toP :: a -> [b] -> [(a, b)]
@@ -38,15 +43,3 @@ melodyWithRest r p d = insertMore r $ makeMelody p d
 
 makeMelody::[Pit.T] -> [Haskore.Basic.Duration.T] -> [Haskore.Melody.T ()]
 makeMelody = zipWith (\a b -> note a b ())
-
-insert::Int -> a -> [a] -> [a]
-insert n new_element xs = let (ys,zs) = splitAt n xs in ys ++ [new_element] ++ zs
-
-insertMore:: [(Int,a)]->[a]->[a]
-insertMore ls xs = foldl (flip $ uncurry insert) xs ls
-
-nTimes::Int->[a]->[a]
-nTimes n l = applyNTimes n (++ l) []
-
-applyNTimes :: Int -> (a -> a) -> a -> a
-applyNTimes n f val = foldl (\s e -> e s) val [f | x <- [1..n]]

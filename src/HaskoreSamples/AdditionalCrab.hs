@@ -1,11 +1,11 @@
-module AdditionalCrab where
+module HaskoreSamples.AdditionalCrab where
 
-import CrabCanon
+import HaskoreSamples.CrabCanon
+import HaskoreSamples.Helper
 import Haskore.Melody
 import Haskore.Music as M
 import Haskore.Basic.Duration
 import Haskore.Music.GeneralMIDI
-import Helper
 import Haskore.Basic.Pitch as Pit
 import Prelude as P
 import Data.Maybe
