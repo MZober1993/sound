@@ -1,5 +1,7 @@
-module EuterpeaSamples.MoreMusic where
+module MoreMusic where
+
 import Euterpea
+
 pr1, pr2 :: Pitch -> Music Pitch
 pr1 p =  tempo (5/6)
          (  tempo (4/3)  (  mkLn 1 p qn :+:
@@ -78,8 +80,8 @@ funkGroove
      in  tempo 3 $ instrument Percussion $ cut 8 $ forever
          (  (  p1 :+: qnr :+: p2 :+: qnr :+: p2 :+:
                p1 :+: p1 :+: qnr :+: p2 :+: enr)
-
             :=: roll en (perc ClosedHiHat 2) )
+
 rep ::  (Music a -> Music a) -> (Music a -> Music a) -> Int
         -> Music a -> Music a
 rep f g 0 m  = rest 0
@@ -91,9 +93,8 @@ run       = rep (transpose 5) (offset tn) 8 (c 4 tn)
 cascade   = rep (transpose 4) (offset en) 8 run
 cascades  = rep  id           (offset sn) 2 cascade
 final = cascades :+: retro cascades
+
 run'       = rep (offset tn) (transpose 5) 8 (c 4 tn)
 cascade'   = rep (offset en) (transpose 4) 8 run'
 cascades'  = rep (offset sn)  id           2 cascade'
 final'     = cascades' :+: retro cascades'
-
-example1 = note sn (C,1)

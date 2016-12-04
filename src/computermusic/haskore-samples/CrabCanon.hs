@@ -1,6 +1,6 @@
-module HaskoreSamples.CrabCanon where
+module CrabCanon where
 
-import HaskoreSamples.Helper
+import Helper
 import Haskore.Melody
 import Haskore.Music as M
 import Haskore.Basic.Duration

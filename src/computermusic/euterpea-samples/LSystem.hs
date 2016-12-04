@@ -1,4 +1,5 @@
-module EuterpeaSamples.LSystem where
+module LSystem where
+
 import Euterpea
 import Data.List hiding (transpose)
 import System.Random

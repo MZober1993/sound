@@ -1,10 +1,10 @@
 module QuaerendoInvenietis where
 
+import Helper
 import Haskore.Melody
 import Haskore.Music as M
 import Haskore.Music.GeneralMIDI
 import Haskore.Basic.Duration
-import Helper
 import Haskore.Basic.Pitch as Pit
 import Prelude as P
 import Data.Maybe

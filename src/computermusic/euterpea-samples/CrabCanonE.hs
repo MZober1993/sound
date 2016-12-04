@@ -1,8 +1,7 @@
-module EuterpeaSamples.CrabCanonE where
+module CrabCanonE where
 
 import Euterpea
-import EuterpeaSamples.EHelper
-import Util.BasicHelper
+import EHelper
 -- Canon a 2 "Crab Canon", from Musical Offering (1747), by J. S. Bach
 
 pitches::[Pitch]
@@ -33,14 +32,13 @@ convert::[Pitch] -> [Music Pitch]
 convert pits = insert 5 enr $ makeMelody durations  pits
 
 durations::[Dur]
-durations = replicate 10 hn ++ replicate 7 qn ++ replicate 4 hn ++ replicate 64 en ++ replicate 4 qn
+durations = replicate 10 qn ++ replicate 7 en ++ replicate 4 qn ++ replicate 64 sn ++ replicate 4 en
 
 takeAfter::Int -> Int -> [a] -> [a]
 takeAfter after n l = take n $ snd $ splitAt after l
 
 original =  line $ convert pitches
 retrograde = retro original
-together = original :=: retrograde
+together = scaleDurations (1/2) $ original :=: retro original
 
-main = expSMidi "crabcanon.mid" together
-
+main = exportAndPlay "crabcanon.mid" together

@@ -1,6 +1,6 @@
-module HaskoreSamples.Examples where
+module Examples where
 
-import HaskoreSamples.Helper
+import Helper
 import Haskore.Interface.MIDI.Render as Render
 import Haskore.Music.GeneralMIDI
 import Haskore.Music
