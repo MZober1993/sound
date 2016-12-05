@@ -159,17 +159,6 @@ fancyInterpPhrase pm
 
 class Performable a where
   perfDur :: PMap Note1 -> Context Note1 -> Music a -> (Performance, DurT)
-{-
-instance Performable Note1 where
-  perfDur pm c m = perf pm c m
-
-instance Performable Pitch where
-  perfDur pm c = perfDur pm c . toMusic1
-
-
-instance Performable (Pitch, Volume) where
-  perfDur pm c = perfDur pm c . toMusic1
--}
 
 defToPerf :: Performable a => Music a -> Context Note1-> Performance
 defToPerf m context = (fst . perfDur defPMap context) m

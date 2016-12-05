@@ -4,6 +4,7 @@ import Euterpea
 import Data.List hiding (transpose)
 import System.Random
 import Data.Maybe
+import EHelper
 
 data DetGrammar a = DetGrammar  a           --  start symbol
                                 [(a,[a])]   --  productions
@@ -79,6 +80,7 @@ generate f rules xs =
 data LSys a  =  N a
              |  LSys a   :+   LSys a
              |  LSys a   :.   LSys a
+             |  LSys a := LSys a -- self written
              |  Id
      deriving (Eq, Ord, Show)
 
@@ -91,6 +93,9 @@ replFun rules (s, rands) =
     a :. b  ->  let  (a',rands')   = replFun rules (a, rands )
                      (b',rands'')  = replFun rules (b, rands')
                 in (a' :. b', rands'')
+    a := b  ->  let  (a',rands')   = replFun rules (a, rands )
+                     (b',rands'')  = replFun rules (b, rands')
+                in (a' := b', rands'')
     Id      ->  (Id, rands)
     N x     ->  (getNewRHS rules (N x) (head rands), tail rands)
 
@@ -107,6 +112,7 @@ type IR a b = [(a, Music b -> Music b)]  --  ``interpetation rules''
 interpret :: (Eq a) => LSys a -> IR a b -> Music b -> Music b
 interpret (a :. b)  r m = interpret a r (interpret b r m)
 interpret (a :+ b)  r m = interpret a r m :+: interpret b r m
+interpret (a := b)  r m = interpret a r m :=: interpret b r m
 interpret Id        r m = m
 interpret (N x)     r m = case lookup x r of
                             Just f   -> f m
@@ -123,21 +129,29 @@ ir = [ (Inc, transpose 1),
        (Same, id)]
 
 inc, dec, same :: LSys LFun
-inc   = N Inc2
+inc   = N Inc
 dec   = N Dec
 same  = N Same
 
 sc = inc :+ dec
+sp = inc := dec
 
 r1a  = Rule inc (sc :. sc)
 r1b  = Rule inc sc
 r2a  = Rule dec (sc :. sc)
 r2b  = Rule dec sc
+
+r1b'  = Rule inc sp
+r2a'  = Rule dec (sp :. sp)
+
 r3a  = Rule same inc
 r3b  = Rule same dec
 r3c  = Rule same same
 
-g1 = Grammar same (Uni [r1b, r1a, r2b,r2a, r3a, r3c, r3b])
+seqGrammar = Grammar same (Uni [r1b, r1a, r2b,r2a, r3a, r3c, r3b])
+parGrammar = Grammar same (Uni [r1b, r1a, r2b,r2a, r2a', r3a, r3c, r3b])
+parGrammar' = Grammar same (Uni [r1b, r1a, r2b,r2a, r2a',r1b', r3a, r3c, r3b])
 
-t1 n = instrument Flute $ interpret (gen replFun g1 42 !! n) ir (f 2 sn)
-exportThis n = exportMidiFile "test1.mid" $ toMidi $ perform $ toMusic1 $ t1 n
+genOnPos gr n = gen replFun gr 42 !! n
+track gr n = instrument AcousticGrandPiano $ interpret (genOnPos gr n) ir (f 3 sn)
+playLSys gr n = exportAndPlay "lsys.mid" $ track gr n

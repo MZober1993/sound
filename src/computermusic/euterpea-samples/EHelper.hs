@@ -10,9 +10,6 @@ exportAndPlay name m = do
     expSMidi name m
     p name
 
-
---changePerformance m =
-
 makeMelody::[Dur] -> [Pitch] -> [Music Pitch]
 makeMelody = zipWith note
 
