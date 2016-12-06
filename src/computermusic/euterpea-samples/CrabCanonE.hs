@@ -34,9 +34,6 @@ convert pits = insert 5 enr $ makeMelody durations pits
 durations::[Dur]
 durations = replicate 10 qn ++ replicate 7 en ++ replicate 4 qn ++ replicate 64 sn ++ replicate 4 en
 
-takeAfter::Int -> Int -> [a] -> [a]
-takeAfter after n l = take n $ snd $ splitAt after l
-
 original =  line $ convert pitches
 retrograde = retro original
 together = scaleDurations (1/2) $ original :=: retro original

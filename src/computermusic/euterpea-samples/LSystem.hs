@@ -124,8 +124,6 @@ data LFun = Inc | Dec | Same
 ir :: IR LFun Pitch
 ir = [ (Inc, transpose 1),
        (Dec, transpose (-1)),
-       (Inc2, transpose 2),
-       (Dec2, transpose (-2)),
        (Same, id)]
 
 inc, dec, same :: LSys LFun
@@ -153,5 +151,5 @@ parGrammar = Grammar same (Uni [r1b, r1a, r2b,r2a, r2a', r3a, r3c, r3b])
 parGrammar' = Grammar same (Uni [r1b, r1a, r2b,r2a, r2a',r1b', r3a, r3c, r3b])
 
 genOnPos gr n = gen replFun gr 42 !! n
-track gr n = instrument AcousticGrandPiano $ interpret (genOnPos gr n) ir (f 3 sn)
+track gr n = instrument ChurchOrgan $ interpret (genOnPos gr n) ir (f 3 sn)
 playLSys gr n = exportAndPlay "lsys.mid" $ track gr n

@@ -18,10 +18,6 @@ m3 = [Modify (Phrase [Art legato]) (line [ef 5 sn, f  5 sn, g  5 sn, af 5 sn]),
 m4 = [trill 2 tn (bf 5 qn), bf 5 sn, denr]
 ssf = Modify (Instrument Oboe) ssfMelody
 
-trillEnEx = line [trilln 2 5 (bf 5 en)]
-trillWnEx = line [trilln 2 5 (bf 5 wn)]
-rollEx = line [rolln 10 (bf 5 en)]
-
 tryFancyAndPlay = exportPerfAndPlay "fancy.mid" tryFancy
 tryDefaultAndPlay = exportPerfAndPlay "default.mid" tryDefault
 mergeBothAndPlay = exportPerfAndPlay "both.mid" mergeBoth
