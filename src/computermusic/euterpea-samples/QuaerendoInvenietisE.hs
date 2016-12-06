@@ -2,9 +2,9 @@ module EuterpeaSamples.QuaerendoInvenietisE where
 
 import Euterpea
 import EHelper
---import Util.BasicHelper
 
 -- Canon a 2 Quaerendo Invenietis, from Musical Offering, BMV 1079 49, by J. S. Bach
+
 mainPitches,subPitches,subSubPitches :: [Pitch]
 mainPitches = subPitches ++ toP 3 [B,Gs,B,F,Fs,Gs,As,B] ++ toP 4 [Cs,D,E,D,Cs,D,Cs] ++ [(B,3)]
             ++ toP 4 [D,Cs] ++ toP 3 [B,As,B] ++ [(Cs,4)] ++ toP 3 [Fs,F,D,F,Fs,Gs,As,B,As]

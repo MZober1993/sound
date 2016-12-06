@@ -168,11 +168,3 @@ toPerf pm cont = fst . perfDur pm cont
 
 playA myPMap myCon = playC defParams{perfAlg=hsomPerform myPMap myCon}
 writeMidiA fn myPMap myCon = exportMidiFile fn . toMidi . hsomPerform myPMap myCon
-
-fancyExample m = do
-    writeMidiA "fancyExample.mid" defPMap fancyCon $ toMusic1 m
-    p "fancyExample.mid"
-
-defaultExample m = do
-    writeMidiA "defaultExample.mid" defPMap defCon $ toMusic1 m
-    p "defaultExample.mid"

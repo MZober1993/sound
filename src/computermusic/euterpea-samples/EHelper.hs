@@ -4,10 +4,10 @@ import Euterpea
 import System.Process
 import System.Exit
 
-expSMidi s m= exportMidiFile s $ toMidi $ perform $ toMusic1 m
+exportAndPlay name m = exportPerfAndPlay name $ perform $ toMusic1 m
 
-exportAndPlay name m = do
-    expSMidi name m
+exportPerfAndPlay name perf = do
+    exportMidiFile name $ toMidi perf
     p name
 
 makeMelody::[Dur] -> [Pitch] -> [Music Pitch]
@@ -28,6 +28,14 @@ nTimes n l = applyNTimes n (++ l) []
 
 insertMore:: [(Int,a)]->[a]->[a]
 insertMore ls xs = foldl (flip $ uncurry insert) xs ls
+
+{-
+insertMore ls xs = case ls of
+    y:ys -> uncurry insert y (insertMore ys xs)
+    _ -> xs
+    ==
+insertMore ls xs = foldl (\a b -> uncurry insert b a) xs ls
+    -}
 
 applyNTimes :: Int -> (a -> a) -> a -> a
 applyNTimes n f val = foldl (\s e -> e s) val [f | x <- [1..n]]

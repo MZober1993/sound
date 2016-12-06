@@ -118,7 +118,7 @@ interpret (N x)     r m = case lookup x r of
                             Just f   -> f m
                             Nothing  -> error "No interpetation rule"
 
-data LFun = Inc | Dec | Inc2 | Dec2 | TempoDown|TempoUp |SameTempo| Same
+data LFun = Inc | Dec | Same
      deriving (Eq, Ord, Show)
 
 ir :: IR LFun Pitch

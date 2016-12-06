@@ -29,7 +29,7 @@ thirdLine =
   toP 5 [D, C, D, Ef, F, Ef, D, C] ++ [(B,4)] ++ [(C,5)] ++ toP 4 [G, Ef, C]
 
 convert::[Pitch] -> [Music Pitch]
-convert pits = insert 5 enr $ makeMelody durations  pits
+convert pits = insert 5 enr $ makeMelody durations pits
 
 durations::[Dur]
 durations = replicate 10 qn ++ replicate 7 en ++ replicate 4 qn ++ replicate 64 sn ++ replicate 4 en
